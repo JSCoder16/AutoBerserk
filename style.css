@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: white;
+    overflow: hidden;
+    width: 300px;
+    height: 350px;
+}
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.title {
+    width: 100%;
+    height: 50px;
+    color: #111;
+    font: impact, Arial;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #DDDDFF;
+    box-shadow: 1px 1px 3px 1px rgba(100,100,100,0.1);
+}
+.controls {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-evenly;
+    
+}
+.control {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.control-name {
+    color: #444;
+    margin-left: 40px;
+    font-family: arial;
+    font-size: 15px;
+}
+
+
+/** Swtiches css **/
+.switch {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    margin-right: 40px;
+}
+.switch input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    border-radius: 20px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 2px;
+    top: 2px;
+    background-color: white;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    border-radius: 30px;
+}
+input:checked + .slider {
+    background-color: #0077FF;
+}
+input:checked + .slider:before {
+    -webkit-transform: translateX(30px);
+    -ms-transform: translateX(30px);
+    transform: translateX(30px);
+    
+}

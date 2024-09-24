@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "AutoZerk",
+    "version": "1.0",
+    "description": "Automatically berserks or berserks back on lichess.org",
+    "permissions": ["storage", "tabs"],
+    "host_permissions": ["https://*.lichess.org/*"],
+    "content_scripts": [
+        {
+            "matches": [
+                "http://*.lichess.org/*",
+                "https://*.lichess.org/*"
+            ],
+            "js": ["./index.js"]
+        }
+    ],
+    "action": {
+        "default_icon":"./Assets/icon.png",
+        "default_title": "AutoBerserk",
+        "default_popup": "popup.html"
+    }
+}
