@@ -5,6 +5,7 @@ function Stuff () {
     let autoBerserk = false;
     let berserkBack = false;
     let semiAuto = false;
+    let semiRange = 750;
 
 
     // gets the first element of a class. Used to save on typing later
@@ -15,21 +16,10 @@ function Stuff () {
     // get the berserk button
     let myButton = getClassEl("go-berserk");
 
-    // I added parameter (t) for debugging why the berserk was triggered!
     // performs the berserk action and updates the zerked variable
-    const Berserk = (t=0) => {
+    const Berserk = () => {
         myButton.click();
         zerked = true;
-        switch(t) {
-            case 0:
-                console.log("Back!");
-                break;
-            case 1:
-                console.log("Auto");
-                break;
-            case 2:
-                console.log("Rated!");
-        }
     }
 
     //// stores the ratings
@@ -40,14 +30,15 @@ function Stuff () {
     let myRating = Number.parseInt(ratingElements[1].innerText);
 
 
-    // round ratings to nearest 50 for simplicities sake
-    oppRating = (( oppRating / 50 ) | 0) * 50;
-    myRating = (( myRating / 50 ) | 0) * 50;
-
-
 
     // populate the booleans with properties from chrome local storage if it exsists
     // if not add the chrome local storage data as false
+    // first get the rating range because it is used in one of the other storage get calls
+    chrome.storage.local.get("semiRange").then((res) => {
+        if(res.semiRange !== undefined) {
+            ratingRange = res.semiRange;
+        }
+    });
     chrome.storage.local.get("berserkBack").then((res) => {
         if(res.berserkBack !== undefined) {
             berserkBack = res.berserkBack;
@@ -73,8 +64,8 @@ function Stuff () {
         if(res.semiBerserk !== undefined) {
             semiAuto = res.semiBerserk;
             // if we are berserking when someone is less then 500 rated then us
-            if(semiAuto && oppRating <= myRating-500) {
-                Berserk(2);
+            if(semiAuto && oppRating <= myRating-ratingRange) {
+                Berserk();
             }
         }else {
             chrome.storage.local.set("semiBerserk", false);
@@ -92,10 +83,10 @@ function Stuff () {
             Berserk();
         }
         if(autoBerserk) {
-            Berserk(1);
+            Berserk();
         }
-        if(semiAuto && oppRating <= myRating-500) {
-            Berserk(2);
+        if(semiAuto && oppRating <= myRating-ratingRange) {
+            Berserk();
         }
 
         window.setTimeout(loop, 1000 / 80);
@@ -108,12 +99,12 @@ function Stuff () {
     
     // if we are berserking automatically
     if(autoBerserk && !zerked) {
-        Berserk(1);
+        Berserk();
     }
 
     // if we are berserking when someone is less then 500 rated then us
-    if(semiAuto && oppRating <= myRating-500 && !zerked) {
-        Berserk(2);
+    if(semiAuto && oppRating <= myRating-ratingRange && !zerked) {
+        Berserk();
     }
     
     // listen for changes to the settings
@@ -129,13 +120,13 @@ function Stuff () {
         if( changeKey ==  "autoBerserk") {
             autoBerserk = changes[changeKey];
             if(autoBerserk && !zerked) {
-                Berserk(1);
+                Berserk();
             }
         }
         if(changeKey == "semiBerserk") {
             semiAuto = changes[changeKey];
-            if(semiAuto && oppRating <= myRating-500  && !zerked) {
-                Berserk(2);
+            if(semiAuto && oppRating <= myRating-ratingRange  && !zerked) {
+                Berserk();
             }
         }
     });
