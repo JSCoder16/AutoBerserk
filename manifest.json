@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "AutoZerk",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Automatically berserks or berserks back on lichess.org",
     "permissions": ["storage", "tabs"],
     "host_permissions": ["https://*.lichess.org/*"],
